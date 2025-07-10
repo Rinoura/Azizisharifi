@@ -1,0 +1,11 @@
+import tkinter as tk
+import csv
+import datetime
+
+#کلاس کاربر
+class User:
+    def __init__(self , username , password , role , status):
+        self.username = username
+        self.password = password
+        self.role = role
+        self.status = status
