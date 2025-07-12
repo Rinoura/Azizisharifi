@@ -31,3 +31,7 @@ class BankAccount:
         self.blance = float(blance)
         self.is_blocked = is_blocked
         self.last_withdraw = last_withdraw
+#برای انتقال ها
+    def record_transaction(self , to_account , amount , transaction_type):
+        pass
+    
