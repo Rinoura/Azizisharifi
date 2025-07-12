@@ -9,3 +9,17 @@ class User:
         self.password = password
         self.role = role
         self.status = status
+
+#ورود کاربران
+    def login(self):
+        try:
+            with open("users.csv" , "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[0] == self.username and row[1] == self.password:
+                        return User(row[0] , row[1] , row[2] , row[3])
+        except FileNotFoundError:
+            return None 
+        return None
+    
+    
