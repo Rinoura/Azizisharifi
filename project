@@ -22,4 +22,12 @@ class User:
             return None 
         return None
     
-    
+#کلاس حساب بانکی
+class BankAccount:
+    def __init__(self , account_id , username , account_type , blance , is_blocked , last_withdraw):
+        self.account_id = account_id
+        self.username = username
+        self.account_type = account_type
+        self.blance = float(blance)
+        self.is_blocked = is_blocked
+        self.last_withdraw = last_withdraw
