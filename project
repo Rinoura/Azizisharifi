@@ -32,5 +32,9 @@ class BankAccount:
         self.last_withdraw = last_withdraw
 #برای انتقال ها
     def record_transaction(self , to_account , amount , transaction_type):
-        pass
-    
+        try:
+            with open("transaction.csv" , "a" , newline=") as file:
+                writer = csv.writer(file)
+                writer.writerow([self.account_id , to_account.account_id , amount , transaction_type , datetime.date.today()])
+        except FileNotFoundError:
+            return "فایل تراکنش ها یافت نشد"
