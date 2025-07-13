@@ -68,7 +68,7 @@ class BankAccount:
           today = datetime.date.today()
           if self.last_withdraw and (today.month == self.last_withdraw.month):
             return "برداشت ماهانه شما انجام شده است. لطفا ماه بعد اقدام کنید."
-          # محدودیت برداشت هر باره
+# محدودیت برداشت هر باره
           if amount > 5000000:
                 return "حداکثر مقدار قابل برداشت از حساب پس انداز ۵ میلیون تومان است."
         if amount > self.balance:
@@ -77,7 +77,7 @@ class BankAccount:
         self.update_balance()
         self.last_withdraw = today
         return f"برداشت انجام شد. مانده: {self.balance}"
-# برای انتقال و کرات به کارت
+# برای انتقال و کارت به کارت
     def transfer(self , other , amount):
         if self.is_blocked == "yes":
             return "حساب مسدود است"
@@ -89,4 +89,6 @@ class BankAccount:
         other.update_balance()
         self.record_transaction(other.account_id, amount, "انتقال")
         return f"انتقال موفقیت‌آمیز. مانده: {self.balance}"
+
+
 
