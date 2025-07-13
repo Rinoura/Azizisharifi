@@ -38,3 +38,55 @@ class BankAccount:
                 writer.writerow([self.account_id , to_account.account_id , amount , transaction_type , datetime.date.today()])
         except FileNotFoundError:
             return "فایل تراکنش ها یافت نشد"
+# برای تغییر موجودی حساب در فاایل ها
+    def update_balance(self):
+        try:
+            with open("accounts.csv" , "r") as file:
+                reader = list(csv.reader(file))
+            for row in reader:
+                if row[0] == self.account_id:
+                    row[3] = str(self.balance)
+                    break
+            with open("accounts.csv", "w" , newline="") as file:
+                writer = csv.writer(file)
+                writer.writerows(reader) # نوشتن همه ی فایل ها به علاوه ی حساب تغییر کرده
+        except FileNotFoundError:
+            return "فایل حساب‌ها یافت نشد!"
+# برای واریز
+    def deposit(self , amount):
+        if self.is_blocked == "yes":
+            return "حساب مسدود است"
+        self.balance += amount
+        self.update_balance()
+        return f"واریز انجام شد. مانده: {self.balance}"
+# برای برداشت
+    def withdraw(self , amount):
+        if self.is_blocked == "yes":
+            return "حساب مسدود است"
+        if self.account_type == "پس انداز" :
+            # اعمال محدودیت برداشت ماهانه
+          today = datetime.date.today()
+          if self.last_withdraw and (today.month == self.last_withdraw.month):
+            return "برداشت ماهانه شما انجام شده است. لطفا ماه بعد اقدام کنید."
+          # محدودیت برداشت هر باره
+          if amount > 5000000:
+                return "حداکثر مقدار قابل برداشت از حساب پس انداز ۵ میلیون تومان است."
+        if amount > self.balance:
+            return "موجودی کافی نیست"
+        self.balance -= amount
+        self.update_balance()
+        self.last_withdraw = today
+        return f"برداشت انجام شد. مانده: {self.balance}"
+# برای انتقال و کرات به کارت
+    def transfer(self , other , amount):
+        if self.is_blocked == "yes":
+            return "حساب مسدود است"
+        if amount > self.balance:
+            return "موجودی کافی نیست"
+        other.balance += amount
+        self.balance -= amount
+        self.update_balance()
+        other.update_balance()
+        self.record_transaction(other.account_id, amount, "انتقال")
+        return f"انتقال موفقیت‌آمیز. مانده: {self.balance}"
+
